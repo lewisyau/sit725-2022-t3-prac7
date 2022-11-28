@@ -23,7 +23,7 @@ const submitForm = () => {
     formData.password = $('#password').val();
     formData.email = $('#email').val();
 
-    console.log("Form Data Submitted: ", formData);
+    alert("Form Data Submitted: ", formData);
 }
 
 const addCards = (items) => {
