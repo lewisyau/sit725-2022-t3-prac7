@@ -1,29 +1,52 @@
-const cardList = [
-    {
-        title: "Landscape 2",
-        image: "images/image_2A.jpg",
-        link: "About View 2",
-        desciption: "Demo desciption about view 2"
-    },
-    {
-        title: "Landscape 3",
-        image: "images/image_3A.jpg",
-        link: "About View 3",
-        desciption: "Demo desciption about view 3"
-    }
-]
+// const cardList = [
+//     {
+//         title: "Landscape 2",
+//         image: "images/image_2A.jpg",
+//         link: "About View 2",
+//         desciption: "Demo desciption about view 2"
+//     },
+//     {
+//         title: "Landscape 3",
+//         image: "images/image_3A.jpg",
+//         link: "About View 3",
+//         desciption: "Demo desciption about view 3"
+//     }
+// ]
+
+const getProjects = () => {
+    $.get('/api/projects', (response) => {
+        if (response.statusCode == 200) {
+            addCards(response.data);
+        }
+    })
+}
+
 const clickMe = () => {
     alert("Thanks for clicking me. Hope you have a nice day!")
 }
 
 const submitForm = () => {
     let formData = {};
-    formData.first_name = $('#first_name').val();
-    formData.last_name = $('#last_name').val();
-    formData.password = $('#password').val();
-    formData.email = $('#email').val();
+    formData.title = $('#title').val();
+    formData.image = $('#image').val();
+    formData.link = $('#link').val();
+    formData.description = $('#description').val();
 
-    alert("Form Data Submitted: ", formData);
+    console.log("Form Data Submitted: ", formData);
+    addProjectToApp(formData);
+}
+
+//ajax function.....
+const addProjectToApp = (project) => {
+    $.ajax({
+        url: '/api/projects',
+        data: project,
+        type: 'POST',
+        success: (result) => {
+            alert(result.message);
+            location.reload(); // it automatically reloads the page 
+        }
+    })
 }
 
 const addCards = (items) => {
@@ -47,6 +70,7 @@ $(document).ready(function () {
     $('#formSubmit').click(() => {
         submitForm();
     })
-    addCards(cardList);
+    getProjects();
     $('.modal').modal();
 });
+
